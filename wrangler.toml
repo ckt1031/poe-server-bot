@@ -1,0 +1,7 @@
+name = "poe"
+compatibility_date = "2024-09-02"
+keep_vars = true
+
+[observability]
+enabled = true
+head_sampling_rate = 1
