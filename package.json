@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "hono": "^4.6.8",
+    "hono": "^4.6.9",
     "openai": "^4.70.2",
     "wrangler": "^3.84.1"
   }

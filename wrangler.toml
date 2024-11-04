@@ -1,7 +1,10 @@
-name = "poe"
-compatibility_date = "2024-09-02"
+name = "poe-server-bot"
 keep_vars = true
+compatibility_date = "2024-09-02"
 
 [observability]
 enabled = true
 head_sampling_rate = 1
+
+[placement]
+mode = "smart"

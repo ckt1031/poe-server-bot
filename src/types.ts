@@ -2,6 +2,10 @@
  * Reference: https://creator.poe.com/docs/poe-protocol-specification
  */
 
+import { Context } from "hono";
+
+export type HonoContext = Context<{ Bindings: Bindings }>;
+
 export interface SettingsResponse {
   allow_attachments?: boolean;
   introduction_message?: string;
@@ -105,4 +109,5 @@ export type Bindings = {
   ACCESS_KEY: string;
   OPENAI_API_KEY: string;
   OPENAI_API_URL: string;
+  OPENAI_DEFAULT_MODEL?: string;
 };

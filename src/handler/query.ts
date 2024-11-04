@@ -1,4 +1,3 @@
-import { Context } from "hono";
 import { streamSSE } from "hono/streaming";
 import OpenAI from "openai";
 import {
@@ -6,9 +5,9 @@ import {
   ChatCompletionUserMessageParam,
 } from "openai/resources/index.mjs";
 import {
-  Bindings,
   DoneMessage,
   ErrorMessage,
+  HonoContext,
   JsonMessage,
   MetaMessage,
   QueryRequest,
@@ -18,14 +17,16 @@ import {
 } from "../types";
 
 export default async function handleQuery(
-  c: Context<{ Bindings: Bindings }>,
-  model: string,
+  c: HonoContext,
   request: QueryRequest,
 ) {
   const openai = new OpenAI({
     apiKey: c.env.OPENAI_API_KEY,
     baseURL: c.env.OPENAI_API_URL,
   });
+
+  const model = c.req.query("model") ?? c.env.OPENAI_DEFAULT_MODEL ??
+    "gpt-4o-mini";
 
   const messages: ChatCompletionMessageParam[] = request.query.map((m) => {
     const role = m.role === "bot" ? "assistant" : m.role;
