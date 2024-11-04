@@ -41,6 +41,10 @@ app.post("/", async (c) => {
 });
 
 app.get("/sync-bot-settings", async (c) => {
+  if (c.env.TOKEN && c.req.query("token") !== c.env.TOKEN) {
+    return c.text("Unauthorized", 401);
+  }
+
   if (!c.env.BOT_NAME) {
     return c.text("No bot required to sync", 200);
   }
