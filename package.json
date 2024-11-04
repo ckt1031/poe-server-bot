@@ -1,7 +1,13 @@
 {
+  "scripts": {
+    "deploy": "wrangler deploy src/index.ts",
+    "lint": "tsc --noEmit"
+  },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
     "hono": "^4.6.9",
     "openai": "^4.70.2",
+    "typescript": "^5.6.3",
     "wrangler": "^3.84.1"
   }
 }

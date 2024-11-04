@@ -30,8 +30,6 @@ export default async function handleQuery(
     "gpt-4o-mini";
   const prompt = c.req.query("prompt") ?? "";
 
-  const customSystemMessage = prompt ? await fetchPrompt(prompt) : "";
-
   const messages: ChatCompletionMessageParam[] = request.query.map((m) => {
     const role = m.role === "bot" ? "assistant" : m.role;
 
@@ -39,15 +37,6 @@ export default async function handleQuery(
       return ({
         role,
         content: m.content,
-      });
-    }
-
-    if (role === "system") {
-      return ({
-        role,
-        content: customSystemMessage.length > 0
-          ? customSystemMessage
-          : m.content,
       });
     }
 
@@ -74,6 +63,18 @@ export default async function handleQuery(
       content: content,
     });
   });
+
+  const customSystemMessage = prompt.length > 0
+    ? await fetchPrompt(prompt)
+    : "";
+
+  // Insert a system message at the beginning of the conversation
+  if (customSystemMessage.length > 0) {
+    messages.unshift({
+      role: "system",
+      content: customSystemMessage,
+    });
+  }
 
   const openAIStream = await openai.chat.completions.create({
     model,

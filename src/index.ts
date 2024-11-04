@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import type { Bindings, HonoContext, QueryRequest } from "./types";
 import handleSettings from "./handler/settings";
 import handleQuery from "./handler/query";
+import { syncBotSettings } from "./handler/fetch-settings";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -37,6 +38,21 @@ app.post("/", async (c) => {
       console.error("Invalid request type: ", request);
       throw new Error("Invalid request type");
   }
+});
+
+app.get("/sync-bot-settings", async (c) => {
+  if (!c.env.BOT_NAME) {
+    return c.text("No bot required to sync", 200);
+  }
+
+  const bots = c.env.BOT_NAME.split(",");
+  const keys = c.env.ACCESS_KEY.trim().split(",");
+
+  for (const bot of bots) {
+    await syncBotSettings(bot, keys[bots.indexOf(bot)]);
+  }
+
+  return c.text("Synced");
 });
 
 export default app;

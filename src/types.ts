@@ -106,6 +106,7 @@ export interface DoneMessage {
 }
 
 export type Bindings = {
+  BOT_NAME?: string;
   ACCESS_KEY: string;
   OPENAI_API_KEY: string;
   OPENAI_API_URL: string;

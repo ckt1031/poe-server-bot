@@ -9,10 +9,13 @@ export default function handleSettings(c: Context) {
   const enable_image_comprehension =
     c.req.query("enable_image_comprehension") === "true";
 
+  const customIntroductionMessage = c.req.query("introduction_message") ??
+    introductionMessage;
+
   const settings: SettingsResponse = {
     allow_attachments,
     enable_image_comprehension,
-    introduction_message: introductionMessage,
+    introduction_message: customIntroductionMessage,
   };
 
   return c.json(settings);

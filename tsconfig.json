@@ -1,0 +1,15 @@
+{
+  "exclude": [
+    "node_modules",
+    ".wrangler"
+  ],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext"
+    ],
+    "types": [
+      "@cloudflare/workers-types"
+    ]
+  }
+}
