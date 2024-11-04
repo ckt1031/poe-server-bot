@@ -34,9 +34,14 @@ app.post("/", async (c) => {
       return handleQuery(c, request);
     case "settings":
       return handleSettings(c);
+    case "report_feedback":
+      console.error("Feedback received: ", request);
+      return c.text("Feedback received", 200);
+    case "report_error":
+      console.error("Error reported: ", request);
+      return c.text("Error reported", 200);
     default:
-      console.error("Invalid request type: ", request);
-      throw new Error("Invalid request type");
+      c.text("Not Implemented", 501);
   }
 });
 

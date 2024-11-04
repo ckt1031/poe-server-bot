@@ -53,7 +53,7 @@ export interface QueryRequest {
   logit_bias?: Record<string, number>;
   stop_sequences?: string[];
   language_code?: string;
-  type: "query" | "settings" | "report_error";
+  type: "query" | "settings" | "report_error" | "report_feedback";
 }
 
 export interface MetaMessage {
