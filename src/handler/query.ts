@@ -15,6 +15,7 @@ import {
   SuggestedReplyMessage,
   TextMessage,
 } from "../types";
+import { fetchPrompt } from "../prompts";
 
 export default async function handleQuery(
   c: HonoContext,
@@ -27,14 +28,26 @@ export default async function handleQuery(
 
   const model = c.req.query("model") ?? c.env.OPENAI_DEFAULT_MODEL ??
     "gpt-4o-mini";
+  const prompt = c.req.query("prompt") ?? "";
+
+  const customSystemMessage = prompt ? await fetchPrompt(prompt) : "";
 
   const messages: ChatCompletionMessageParam[] = request.query.map((m) => {
     const role = m.role === "bot" ? "assistant" : m.role;
 
-    if (role === "system" || role === "assistant") {
+    if (role === "assistant") {
       return ({
         role,
         content: m.content,
+      });
+    }
+
+    if (role === "system") {
+      return ({
+        role,
+        content: customSystemMessage.length > 0
+          ? customSystemMessage
+          : m.content,
       });
     }
 
